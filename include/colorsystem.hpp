@@ -629,6 +629,7 @@ class Spectrum
 
     constexpr Spectrum() : s_{} { ; }
     constexpr Spectrum(const spectrum &s) : s_(s) { ; }
+    constexpr Spectrum(const Spectrum &/*src*/) = default ;
     static constexpr float lerp(const float a, const float b, const float r)
     {
         return a * (1 - r) + b * r;
@@ -641,9 +642,28 @@ class Spectrum
         const float h     = (index + 1) * (hi - lo) / count;
         return (index >= count) ? sample[count] : (index <= 0) ? sample[0] : lerp(sample[index], sample[index + 1], (t - l - lo) / (h - l));
     }
+    template <typename Iter_>
+        static constexpr float fetch (Iter_ it_beg, Iter_ it_end, float lo, float hi, float temperature)
+        {
+            auto count = std::distance (it_beg, it_end) - 1 ;
+            auto index = static_cast<int> (count * (temperature - lo) / (hi - lo)) ;
+            auto l = (index + 0) * (hi - lo) / count ;
+            auto h = (index + 1) * (hi - lo) / count ;
+            if (index <= 0)
+            {
+                return *it_beg ;
+            }
+            if (count <= index)
+            {
+                return *it_end ;
+            }
+            return lerp (*(it_beg + index), *(it_beg + index + 1), (temperature - l - lo) / (h - l));
+        }
+
     constexpr float fetch(const float &lambda) const
     {
-        return fetch(s_.data(), 400, 380.f, 779.f, lambda);
+        //return fetch(s_.data(), 400, 380.f, 779.f, lambda);
+        return fetch (s_.begin (), s_.end (), 380.0f, 779.0f, lambda) ;
     }
 
     Spectrum(
@@ -652,16 +672,25 @@ class Spectrum
         const float &lo      = 380.f,
         const float &hi      = 779.f)
     {
-        for (int i = 0; i < 400; i++)
-        {
-            s_[i] = fetch(sample, samples, lo, hi, 380.f + i);
-        }
+        int_fast32_t idx = 0 ;
+        auto gen = [sample, samples, lo, hi, &idx] () -> float {
+            return fetch (sample, samples, lo, hi, 380.f + static_cast<float> (idx++)) ;
+        };
+        std::generate (s_.begin (), s_.end (), gen) ;
     }
+    template <typename Iter_>
+        Spectrum(Iter_ it_beg, Iter_ it_end, float lo, float hi)
+        {
+            int_fast32_t idx = 0 ;
+            auto gen = [it_beg, it_end, lo, hi, &idx] () -> float {
+                return fetch (it_beg, it_end, lo, hi, 380.0f + static_cast<float> (idx++));
+            };
+            std::generate (s_.begin (), s_.end (), gen);
+        }
     constexpr float operator[](const int i) const
     {
         return s_[i];
     }
-
     const spectrum &s(void) const
     {
         return s_;
@@ -685,66 +714,95 @@ class Spectrum
     static const Spectrum blackbody(const float temp)
     {
         spectrum s;
-        for (int i = 0; i < 400; i++)
-        {
-            s[i] = (float)planck(temp, (double)(380.f + i) * 1e-9);
-        }
+
+        int_fast32_t idx = 0 ;
+        auto gen = [&idx, temp]() -> float {
+            return static_cast<float>(planck (temp, static_cast<double>(380.0f + idx++) * 1e-9));
+        } ;
+        using namespace std ;
+        std::generate(begin(s), end(s), gen) ;
         return Spectrum(s);
     }
     static const Spectrum E(const float e = 1.f)
     {
         spectrum s;
-        for (int i = 0; i < 400; i++)
-        {
-            s[i] = e;
-        }
+        s.fill(e) ;
         return Spectrum(s);
     }
-    static const Spectrum mul(const Spectrum &a, const Spectrum &b)
-    {
-        spectrum s;
-        for (int i = 0; i < 400; i++)
+    /**
+     * @brief Applies the binary operaoor `op` to pairs of element.
+     * @tparam Op_ Binary operator to compute value from the pair of element
+     * @param other
+     * @param op
+     * @return *this
+     */
+    template <typename Op_>
+        Spectrum &  apply(const Spectrum &other, Op_ op)
         {
-            s[i] = a[i] * b[i];
+            using namespace std ;
+
+            std::transform (begin(s_), end(s_), begin(other.s_), begin(s_), op) ;
+            return *this ;
         }
-        return Spectrum(s);
-    }
-    static const Spectrum add(const Spectrum &a, const Spectrum &b)
+
+    Spectrum &  mul(const Spectrum &other)
     {
-        spectrum s;
-        for (int i = 0; i < 400; i++)
-        {
-            s[i] = a[i] + b[i];
-        }
-        return Spectrum(s);
+        return apply (other, [](float x, float y) -> float { return x * y ; }) ;
     }
-    const Spectrum operator*(const Spectrum &b) const { return mul(*this, b); }
-    const Spectrum operator+(const Spectrum &b) const { return add(*this, b); }
-    static constexpr float sumHelper(const Spectrum &a, const int i)
+
+    Spectrum &  add(const Spectrum &other)
     {
-        return (i > 0) ? sumHelper(a, i - 1) + a[i] : a[0];
+        return apply (other, [](float x, float y) -> float { return x + y ; }) ;
+    }
+
+    static Spectrum mul(const Spectrum &a, const Spectrum &b)
+    {
+        return Spectrum (a).mul (b) ;
+    }
+
+    static Spectrum add(const Spectrum &a, const Spectrum &b)
+    {
+        return Spectrum (a).add (b);
+    }
+
+    Spectrum &  operator *= (const Spectrum &b) { return mul(b); }
+    Spectrum &  operator += (const Spectrum &b) { return add(b); }
+
+    static constexpr float sum_(const Spectrum &a, size_t idx, float accume)
+    {
+        return (idx < a.s_.size () ? sum_ (a, idx + 1, accume + a [idx]) : accume) ;
     }
     static constexpr float sum(const Spectrum &a)
     {
-        return sumHelper(a, 399);
+        return sum_ (a, 0, 0.0f) ;
     }
     constexpr float sum() const
     {
         return sum(*this);
     }
-    static constexpr float dotHelper(const Spectrum &a, const Spectrum &b, const int i)
+    static constexpr float  dot_(const Spectrum &a, const Spectrum &b, size_t idx, float accume)
     {
-        return (i > 0) ? a[i] * b[i] + dotHelper(a, b, i - 1) : a[0] * b[0];
+        return (idx < a.s_.size () ? dot_ (a, b, idx + 1, accume + (a [idx] * b [idx])) : accume) ;
     }
     static constexpr float dot(const Spectrum &a, const Spectrum &b)
     {
-        return dotHelper(a, b, 399);
+        return dot_ (a, b, 0, 0.0f) ;
     }
     constexpr float dot(const Spectrum &s) const
     {
-        return dotHelper(*this, s, 399);
+        return dot_ (*this, s, 0, 0.0f) ;
     }
-};
+} ;
+
+inline Spectrum operator * (const Spectrum &a, const Spectrum &b)
+{
+    return Spectrum (a).mul (b) ;
+}
+
+inline Spectrum operator + (const Spectrum &a, const Spectrum &b)
+{
+    return Spectrum (a).add (b) ;
+}
 
 class Observer
 {
