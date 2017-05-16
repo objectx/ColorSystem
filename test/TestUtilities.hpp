@@ -71,6 +71,39 @@ inline std::ostream &operator<<(std::ostream &o, const ColorSystem::Tristimulus 
     return writeTo(o, s);
 }
 
+inline std::ostream &writeTo(std::ostream &o, const ColorSystem::Spectrum &s)
+{
+    const int_fast32_t CNT_COLUMN = 4 ;
+    int_fast32_t col = 0 ;
+    for (auto const &v : s)
+    {
+        if (col == 0)
+        {
+            o << "|" ;
+        }
+        else
+        {
+            o << " " ;
+        }
+        o << putFloat (v) ;
+        if (CNT_COLUMN <= ++col)
+        {
+            o << "|\n" ;
+            col = 0 ;
+        }
+    }
+    if (0 < col)
+    {
+        o << "\n";
+    }
+    return o ;
+}
+
+inline std::ostream &   operator << (std::ostream &o, const ColorSystem::Spectrum &s)
+{
+    return writeTo(o, s) ;
+}
+
 namespace Catch
 {
 /// ColorSpace::Vector3 specialized string converter.
@@ -107,6 +140,18 @@ struct StringMaker<ColorSystem::Tristimulus>
         return O.str();
     }
 };
+
+template <>
+struct StringMaker<ColorSystem::Spectrum>
+{
+    static std::string convert(const ColorSystem::Spectrum &s)
+    {
+        std::ostringstream O ;
+        writeTo(O, s);
+        return O.str() ;
+    }
+};
+
 }
 
 template <typename T_>
