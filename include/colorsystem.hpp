@@ -7,6 +7,7 @@
 //
 
 #include <array>
+#include <iterator>
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
@@ -695,6 +696,9 @@ class Spectrum
     {
         return s_;
     }
+    constexpr auto size() const { return s_.size(); }
+    auto begin() const { return s_.begin(); }
+    auto end() const { return s_.end(); }
 
     static const double planck(
         const double &T, // temperature (Kelvin)
@@ -719,7 +723,8 @@ class Spectrum
         auto gen = [&idx, temp]() -> float {
             return static_cast<float>(planck (temp, static_cast<double>(380.0f + idx++) * 1e-9));
         } ;
-        using namespace std ;
+        using std::begin ;
+        using std::end ;
         std::generate(begin(s), end(s), gen) ;
         return Spectrum(s);
     }
@@ -739,7 +744,8 @@ class Spectrum
     template <typename Op_>
         Spectrum &  apply(const Spectrum &other, Op_ op)
         {
-            using namespace std ;
+            using std::begin ;
+            using std::end ;
 
             std::transform (begin(s_), end(s_), begin(other.s_), begin(s_), op) ;
             return *this ;
