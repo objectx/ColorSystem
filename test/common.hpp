@@ -8,7 +8,9 @@
 #include <limits>
 #include <iostream>
 #include <iomanip>
-
+#include <array>
+#include <iterator>
+#include <algorithm>
 #include <catch.hpp>
 
 #endif /* common_hpp__3e4a26a3f2b54c5ab0cffb73751f7dfd */
