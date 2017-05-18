@@ -32,3 +32,16 @@ target_compile_features (colortest PRIVATE cxx_std_14)
 add_test (NAME colortest
           COMMAND colortest
           WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_executable (color_rapidcheck color_rapidcheck.cpp)
+target_compile_features (color_rapidcheck PUBLIC cxx_std_14)
+target_link_libraries (color_rapidcheck PRIVATE ColorSystem rapidcheck)
+target_include_directories (color_rapidcheck PRIVATE ${COLORSYSTEM_SOURCE_DIR}/ext)
+
+if (COMMAND cotire)
+    cotire (color_rapidcheck)
+endif ()
+
+add_test (NAME color_rapidcheck
+          COMMAND color_rapidcheck
+          WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
