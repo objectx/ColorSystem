@@ -8,13 +8,15 @@
 #ifndef colorsystem_hpp__abf47c16efbc4a80838738ff9b8a0eea
 #define colorsystem_hpp__abf47c16efbc4a80838738ff9b8a0eea   1
 
+#include <cstddef>
+#include <cstdint>
 #include <array>
 #include <algorithm>
 #include <vector>
 #include <algorithm>
 #include <assert.h>
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 
 namespace ColorSystem
 {
