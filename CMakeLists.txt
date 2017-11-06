@@ -14,6 +14,7 @@ target_include_directories (ColorSystem INTERFACE
 
 enable_testing ()
 
+add_subdirectory (include EXCLUDE_FROM_ALL)
 add_subdirectory (test)
 
 install (DIRECTORY include DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
