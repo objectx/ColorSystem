@@ -7,6 +7,7 @@
 
 #include <array>
 #include <vector>
+#include <algorithm>
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
@@ -2403,7 +2404,7 @@ namespace SOLVER
                         a[i][k] = (a[i][k] * scale);
                 }
             }
-            anorm = std::max(anorm, (fabs(w[i]) + fabs(rv1[i])));
+            anorm = std::max<float>(anorm, (fabs(w[i]) + fabs(rv1[i])));
         }
 
         /* accumulate the right-hand transformation */
@@ -2653,7 +2654,7 @@ class Corrector
     Corrector() { ; }
     virtual ~Corrector() { ; }
 
-    static Matrix3 solve(std::vector<Tristimulus> &patch, std::vector<Tristimulus> &target)
+    static Matrix3 solve(std::vector<Tristimulus> &patch, const std::vector<Tristimulus> &target)
     {
         // M*A = B, M and B are known. solve A.
         int row_count = (int)(patch.size() + 1) * 3; // forex, (24+1)*3 = 75

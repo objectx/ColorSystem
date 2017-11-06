@@ -130,9 +130,9 @@ class ApproxEquals final : public Catch::MatcherBase<T_>
         }
         for (int_fast32_t i = 0; i < value.size(); ++i)
         {
-            if (value[i] != Approx(expected_[i]).epsilon(epsilon_))
+            if (value[i] != Approx(expected_[i]).margin(epsilon_))
             {
-                return false;
+                return false ;
             }
         }
         return true;
