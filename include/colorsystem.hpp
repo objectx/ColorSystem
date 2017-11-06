@@ -5,12 +5,14 @@
 // policy: currently single-headered, simple, low overhead, no ICC support.
 //
 
+#include <cstddef>
+#include <cstdint>
 #include <array>
 #include <vector>
 #include <algorithm>
 #include <assert.h>
-#include <math.h>
-#include <stdio.h>
+#include <cmath>
+#include <cstdio>
 
 #pragma once
 
