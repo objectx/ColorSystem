@@ -11,6 +11,7 @@
 #include <array>
 #include <algorithm>
 #include <vector>
+#include <algorithm>
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
@@ -2405,7 +2406,7 @@ namespace SOLVER
                         a[i][k] = (a[i][k] * scale);
                 }
             }
-            anorm = std::max(anorm, (fabsf(w[i]) + fabsf(rv1[i])));
+            anorm = std::max<float>(anorm, (fabs(w[i]) + fabs(rv1[i])));
         }
 
         /* accumulate the right-hand transformation */
