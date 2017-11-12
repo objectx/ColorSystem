@@ -1,3 +1,7 @@
+//
+// copyright 2017 (c) Hajime UCHIMURA / @nikq
+// all rights reserved
+//
 #pragma once
 #ifndef Tristimulus_hpp__456dbe052ac84feaa9c8a7b36384e647
 #define Tristimulus_hpp__456dbe052ac84feaa9c8a7b36384e647   1

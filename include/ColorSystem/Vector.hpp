@@ -1,3 +1,9 @@
+//
+// copyright 2017 (c) Hajime UCHIMURA / @nikq
+// all rights reserved
+//
+// ColorSystem/Vector.hpp: 3D vector
+//
 #pragma once
 #ifndef Vector_hpp__3ad9e760201443538057b1eb45a0b8b8
 #define Vector_hpp__3ad9e760201443538057b1eb45a0b8b8    1

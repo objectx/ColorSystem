@@ -1,3 +1,9 @@
+//
+// copyright 2017 (c) Hajime UCHIMURA / @nikq
+// all rights reserved
+//
+// ColorSystem/Corrector.hpp: Color correction.
+//
 #pragma once
 #ifndef Corrector_hpp__14711dd2fc0f4efb9d0fdf2e952c89a1
 #define Corrector_hpp__14711dd2fc0f4efb9d0fdf2e952c89a1 1

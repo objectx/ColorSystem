@@ -1,3 +1,7 @@
+//
+// copyright 2017 (c) Hajime UCHIMURA / @nikq
+// all rights reserved
+//
 #pragma once
 #ifndef Gamut_hpp__c51f064858754f24b01c99f28de06abc
 #define Gamut_hpp__c51f064858754f24b01c99f28de06abc 1

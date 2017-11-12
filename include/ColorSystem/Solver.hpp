@@ -1,3 +1,7 @@
+//
+// copyright 2017 (c) Hajime UCHIMURA / @nikq
+// all rights reserved
+//
 #pragma once
 #ifndef Solver_hpp__4bc40c38b3a7429f99feb1f71851f659
 #define Solver_hpp__4bc40c38b3a7429f99feb1f71851f659    1

@@ -1,3 +1,7 @@
+//
+// copyright 2017 (c) Hajime UCHIMURA / @nikq
+// all rights reserved
+//
 #pragma once
 #ifndef Observer_hpp__aa9a852751704e0bbf4b8b5435921a69
 #define Observer_hpp__aa9a852751704e0bbf4b8b5435921a69  1

@@ -1,3 +1,7 @@
+//
+// copyright 2017 (c) Hajime UCHIMURA / @nikq
+// all rights reserved
+//
 #pragma once
 #ifndef Delta_hpp__289aed8b50b443fb81e53d0402b2661d
 #define Delta_hpp__289aed8b50b443fb81e53d0402b2661d 1

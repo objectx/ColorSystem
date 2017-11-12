@@ -1,3 +1,7 @@
+//
+// copyright 2017 (c) Hajime UCHIMURA / @nikq
+// all rights reserved
+//
 #pragma once
 #ifndef Macbeth_hpp__d9c2a4c5b1c0452c8902e1032e610181
 #define Macbeth_hpp__d9c2a4c5b1c0452c8902e1032e610181   1

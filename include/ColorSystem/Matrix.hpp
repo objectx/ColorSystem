@@ -1,3 +1,9 @@
+//
+// copyright 2017 (c) Hajime UCHIMURA / @nikq
+// all rights reserved
+//
+// Matrix.hpp: 3x3 Matrix
+//
 #pragma once
 #ifndef Matrix_hpp__ce9a8ca6c9cb4357abd1a91a39353474
 #define Matrix_hpp__ce9a8ca6c9cb4357abd1a91a39353474    1
