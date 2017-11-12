@@ -3,7 +3,7 @@
 
 #include "TestUtilities.hpp"
 
-#include <colorsystem.hpp>
+#include <ColorSystem/Gamut.hpp>
 
 TEST_CASE("Matrices")
 {

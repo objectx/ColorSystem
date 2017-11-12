@@ -6,7 +6,8 @@
 
 #include "TestUtilities.hpp"
 
-#include <colorsystem.hpp>
+#include <ColorSystem/Gamut.hpp>
+#include <ColorSystem/OTF.hpp>
 
 namespace
 {

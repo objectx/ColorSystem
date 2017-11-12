@@ -6,7 +6,10 @@
 #include <iomanip>
 #include <iostream>
 
-#include <colorsystem.hpp>
+#include <ColorSystem/Vector.hpp>
+#include <ColorSystem/Matrix.hpp>
+#include <ColorSystem/Tristimulus.hpp>
+
 
 struct putFloat_
 {

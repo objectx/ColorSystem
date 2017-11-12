@@ -2,7 +2,8 @@
 
 #include "TestUtilities.hpp"
 
-#include <colorsystem.hpp>
+#include <ColorSystem/Tristimulus.hpp>
+#include <ColorSystem/Delta.hpp>
 
 TEST_CASE("CIELAB")
 {

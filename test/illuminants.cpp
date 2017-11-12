@@ -3,7 +3,7 @@
 
 #include "TestUtilities.hpp"
 
-#include <colorsystem.hpp>
+#include <ColorSystem/Tristimulus.hpp>
 
 TEST_CASE("illuminants")
 {

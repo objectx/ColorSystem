@@ -3,7 +3,7 @@
 
 #include "TestUtilities.hpp"
 
-#include <colorsystem.hpp>
+#include <ColorSystem/Macbeth.hpp>
 
 TEST_CASE("Macbeth")
 {

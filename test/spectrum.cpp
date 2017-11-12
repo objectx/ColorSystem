@@ -3,7 +3,8 @@
 
 #include "TestUtilities.hpp"
 
-#include <colorsystem.hpp>
+#include <ColorSystem/Spectrum.hpp>
+#include <ColorSystem/Observer.hpp>
 
 TEST_CASE("Spectrum")
 {
