@@ -6,6 +6,7 @@
 #ifndef Solver_hpp__4bc40c38b3a7429f99feb1f71851f659
 #define Solver_hpp__4bc40c38b3a7429f99feb1f71851f659    1
 
+#include <cmath>
 #include <vector>
 
 namespace ColorSystem {
